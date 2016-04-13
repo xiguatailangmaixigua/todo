@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title></title>
+		<title>mytodo</title>
 		<link rel="stylesheet" type="text/css" href="css/Main.css"></link>
 	</head>
-	<body ng-app="mytodoApp">
+	<body ng-app="mytodoApp"> 
 		<div class="container" ng-controller="MainCtrl">
 			<h2>My todos</h2>
 			<form role="form" ng-submit="addTodo()">
@@ -13,35 +13,44 @@
 					<div class="input-group">
 						<input type="text" ng-model="todo" 
 							placeholder="What do you want to do today?" />
-						<span><input type="checkbox" id="selectAll" ng-model="doneAll"class="btn btn-danger"ng-click="doneAllTodo()" aria-label="complete">done!</input></span>
+						<span>
+							<input type="checkbox" id="selectAll" ng-model="doneAll" 
+							class="btn btn-danger" ng-click="doneAllTodo()" aria-label="comple">	done!
+							</input>
+						</span>
 						<span class="input-group-btn">
 							<input type="submit" class="btn btn-primary" value="Add" />
 						</span>
 					</div>
 				</div>
 			</form>
-			<p  class="from-group" ng-repeat="todo in todos track by $index" ng-if="allFlag"><span ng-class="{strike:todo.isDone}">{{todo.content}}</span>
-				<!--<input ng-class="{strike:todo.isDone}" type="text" ng-model="todo.content" class="form-control" />-->
+			<p  class="from-group" ng-repeat="todo in todoSet track by $index" ng-if="type=='all'">
+				<span ng-class="{strike:todo.isDone}">{{todo.content}}</span>
 				<span class="input-group-btn">
-					<input type="checkbox" ng-model="todo.isDone" class="btn btn-danger"ng-click="completeTodo1($index)" aria-label="complete">done!</input>
-					<button class="btn btn-danger"ng-click="removeTodo1($index)"  aria-label="remove">X</button>
+					<input type="checkbox" ng-model="todo.isDone" class="btn btn-danger"
+					ng-click="completeTodo($event,'all')" aria-label="complete">done!</input>
+					<button class="btn btn-danger"ng-click="removeTodo($event)"  
+					aria-label="remove">X</button>
 				</span>
 			</p>
-			<p class="from-group" ng-repeat="todo in active track by $index" ng-if="activeFlag"><span>{{todo}}</span>
+			<p class="from-group" ng-repeat="todo in activeSet track by $index" ng-if="type=='active'">
+				<span>{{todo}}</span>
 				<span class="input-group-btn">
-					<input type="checkbox"  class="btn btn-danger"ng-click="completeTodo2($index)" aria-label="complete">done!</input>
-					<button class="btn btn-danger"ng-click="removeTodo2($index)" aria-label="remove">X</button>
+					<input type="checkbox"  class="btn btn-danger"ng-click="completeTodo($event,'active')" aria-label="complete">
+						done!
+					</input>
+					<button class="btn btn-danger"ng-click="removeTodo($event)" aria-label="remove">
+						X
+					</button>
 				</span>
 			</p>
-			<p class="from-group" ng-repeat="todo in completed track by $index" ng-if="completeFlag"><span>{{todo}}</span>
-				<span class="input-group-btn">
-				</span>
+			<p class="from-group" ng-repeat="todo in completedSet track by $index" ng-if="type=='complete'"><span>{{todo}}</span>
 			</p>
 			<p class="form-group" >
-				<span>{{len}}item left</span>
-				<span> <input class="inner-btn"type="submit" value="All" ng-click="showAll()"/>
-						<input class="inner-btn" type="submit" value="Active" ng-click="showActive()"/>
-						<input class="inner-btn"type="submit" value="Completed" ng-click="showComplete()"/>
+				<span>{{activeLen}}item left</span>
+				<span> <input class="inner-btn"type="submit" value="All" ng-click="changeListType('all')"/>
+						<input class="inner-btn" type="submit" value="Active" ng-click="changeListType('active')"/>
+						<input class="inner-btn"type="submit" value="Completed" ng-click="changeListType('complete')"/>
 				</span>
 				<span>
 					<input class="inner-btn" type="submit" value="clearCompleted" ng-click="clearComplete()"/>
